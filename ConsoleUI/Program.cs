@@ -1,5 +1,7 @@
 ﻿using Business.Concrete;
+using DataAccess.Concrete.EntityFramework;
 using DataAccess.Concrete.InMemory;
+using Entities.Concrete;
 using System;
 
 namespace ConsoleUI
@@ -8,11 +10,42 @@ namespace ConsoleUI
     {
         static void Main(string[] args)
         {
-            CarManager carManager = new CarManager(new InMemoryCarDal());
-            foreach (var cars in carManager.GetAll())
+            CarManager carManager = new CarManager(new EfCarDal());
+            BrandManager brandManager = new BrandManager(new EfBrandDal());
+
+            Console.WriteLine("BrandId: 1");
+            foreach (var cars in carManager.GetAllByBrandId(1))
             {
-                Console.WriteLine(cars.Description);
+                Console.WriteLine(cars.CarId + " --- " + brandManager.GetById(cars.BrandId).BrandName + " --- " + cars.ColorId + " --- " + cars.ModelYear + " --- " + cars.Description );
             }
+            Console.WriteLine("BrandId: 2");
+            foreach (var cars in carManager.GetAllByBrandId(2))
+            {
+                Console.WriteLine(cars.CarId + " --- " + brandManager.GetById(cars.BrandId).BrandName + " --- " + cars.ColorId + " --- " + cars.ModelYear + " --- " + cars.Description);
+            }
+            Console.WriteLine("BrandId: 4");
+            foreach (var cars in carManager.GetAllByBrandId(4))
+            {
+                Console.WriteLine(cars.CarId + " --- " + brandManager.GetById(cars.BrandId).BrandName + " --- " + cars.ColorId + " --- " + cars.ModelYear + " --- " + cars.Description);
+            }
+            Console.WriteLine("BrandId: 5");
+            foreach (var cars in carManager.GetAllByBrandId(5))
+            {
+                Console.WriteLine(cars.CarId + " --- " + brandManager.GetById(cars.BrandId).BrandName + " --- " + cars.ColorId + " --- " + cars.ModelYear + " --- " + cars.Description);
+            }
+            Console.WriteLine("BrandId: 6");
+            foreach (var cars in carManager.GetAllByBrandId(6))
+            {
+                Console.WriteLine(cars.CarId + " --- " + brandManager.GetById(cars.BrandId).BrandName + " --- " + cars.ColorId + " --- " + cars.ModelYear + " --- " + cars.Description);
+            }
+            Console.WriteLine("BrandId: 7");
+            foreach (var cars in carManager.GetAllByBrandId(7))
+            {
+                Console.WriteLine(cars.CarId + " --- " + brandManager.GetById(cars.BrandId).BrandName + " --- " + cars.ColorId + " --- " + cars.ModelYear + " --- " + cars.Description);
+            }
+            brandManager.Add(new Brand { BrandName = "a" });
+            carManager.Price(new Car { DailyPrice = 0 });
+            carManager.Price(new Car { DailyPrice = 100 });
         }
     }
 }
