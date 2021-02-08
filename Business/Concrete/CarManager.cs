@@ -2,6 +2,7 @@
 using DataAccess.Absrtact;
 using DataAccess.Concrete.EntityFramework;
 using Entities.Concrete;
+using Entities.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -40,6 +41,11 @@ namespace Business.Concrete
         {
 
             return _carDal.GetAll(c => c.DailyPrice >= min && c.DailyPrice <= max);
+        }
+
+        public List<ProductDetailDto> GetProductDetail()
+        {
+            return _carDal.GetProductDetail();
         }
 
         public void Price(Car car)
