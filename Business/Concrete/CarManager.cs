@@ -19,12 +19,27 @@ namespace Business.Concrete
 
         public void Add(Car car)
         {
-            _carDal.Add(car);
+            if (car.DailyPrice > 0)
+            {
+                _carDal.Add(car);
+            }
+            else
+            {
+                Console.WriteLine("Daily price must be more than 0");
+            }
         }
 
         public void Delete(Car car)
         {
-            _carDal.Delete(car);
+            try
+            {
+                _carDal.Delete(car);
+                Console.WriteLine("This car was deleted");
+            }
+            catch (ArgumentNullException)
+            {
+                Console.WriteLine("There is not this car");
+            }
         }
 
         public List<Car> GetAll()
@@ -37,6 +52,10 @@ namespace Business.Concrete
             return _carDal.GetAll(c => c.BrandId == id);
         }
 
+        public Car GetById(int carId)
+        {
+            return _carDal.Get(c => c.CarId == carId);
+        }
         public List<Car> GetByDailyPrice(decimal min, decimal max)
         {
 
@@ -48,27 +67,23 @@ namespace Business.Concrete
             return _carDal.GetProductDetail();
         }
 
-        public void Price(Car car)
-        {
-            if (car.DailyPrice == 0)
-            {
-                Console.WriteLine("Daily price must be more than 0");
-            }
-            else
-            {
-                Console.WriteLine("You can choice a price:");
-                CarManager carManager = new CarManager(new EfCarDal());
-
-                foreach (var cars in carManager.GetAll())
-                {
-                    Console.WriteLine(cars.DailyPrice);
-                }
-            }
-        }
 
         public void Update(Car car)
         {
-            _carDal.Update(car);
+            if (car.DailyPrice > 0)
+            {
+                _carDal.Update(car);
+                Console.WriteLine("Car was updated");
+            }
+            else
+            {
+                Console.WriteLine("Please, write more than 0 price");
+            }
+        }
+
+        public List<Car> GetModelYear(int year)
+        {
+            return _carDal.GetAll(c => c.ModelYear == year);
         }
     }
 }
