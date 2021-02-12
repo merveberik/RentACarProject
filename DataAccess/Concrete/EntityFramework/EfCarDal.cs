@@ -14,7 +14,7 @@ namespace DataAccess.Concrete.EntityFramework
 {
     public class EfCarDal : EfEntityRepositoryBase<Car, CarsTableContext>, ICarDal
     {
-        public List<ProductDetailDto> GetProductDetail()
+        public List<ProductDetailDto> GetProductDetailDto()
         {
             using (CarsTableContext context = new CarsTableContext())
             {

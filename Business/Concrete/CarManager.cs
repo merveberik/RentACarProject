@@ -1,4 +1,6 @@
 ﻿using Business.Absrtact;
+using Business.Constant;
+using Core.Utilities.Results;
 using DataAccess.Absrtact;
 using DataAccess.Concrete.EntityFramework;
 using Entities.Concrete;
@@ -17,73 +19,74 @@ namespace Business.Concrete
             _carDal = carDal;
         }
 
-        public void Add(Car car)
+        public IResult Add(Car car)
         {
-            if (car.DailyPrice > 0)
+            if (car.DailyPrice == 0)
             {
-                _carDal.Add(car);
+                return new ErrorResult(Messages.ProductNameInvalid);
             }
-            else
-            {
-                Console.WriteLine("Daily price must be more than 0");
-            }
+            _carDal.Add(car);
+            return new SuccessResult(Messages.ProductAdded);
         }
 
-        public void Delete(Car car)
+        public IResult Delete(Car car)
         {
             try
             {
                 _carDal.Delete(car);
-                Console.WriteLine("This car was deleted");
+                return new SuccessResult(Messages.ProductDeleted);
             }
             catch (ArgumentNullException)
             {
-                Console.WriteLine("There is not this car");
+                return new ErrorResult(Messages.ProductNameInvalid);
             }
         }
 
-        public List<Car> GetAll()
+        public IDataResult<List<Car>> GetAll()
         {
-            return _carDal.GetAll();
+            if (DateTime.Now.Hour == 22)
+            {
+                return new ErrorDataResult<List<Car>>(Messages.MaintenanceTime);
+            }
+            return new SuccessDataResult<List<Car>>(_carDal.GetAll(), Messages.ProductListed);
         }
 
-        public List<Car> GetAllByBrandId(int id)
+        public IDataResult<List<Car>> GetAllByBrandId(int id)
         {
-            return _carDal.GetAll(c => c.BrandId == id);
+            return new SuccessDataResult<List<Car>>(_carDal.GetAll(p => p.BrandId == id));  //eşit olan id leri filtrele demek
         }
 
-        public Car GetById(int carId)
+        public IDataResult<Car> GetById(int carId)
         {
-            return _carDal.Get(c => c.CarId == carId);
+            return new SuccessDataResult<Car> (_carDal.Get(c => c.CarId == carId));
         }
-        public List<Car> GetByDailyPrice(decimal min, decimal max)
+        public IDataResult<List<Car>> GetByDailyPrice(decimal min, decimal max)
         {
 
-            return _carDal.GetAll(c => c.DailyPrice >= min && c.DailyPrice <= max);
-        }
-
-        public List<ProductDetailDto> GetProductDetail()
-        {
-            return _carDal.GetProductDetail();
+            return new SuccessDataResult<List<Car>>(_carDal.GetAll(c => c.DailyPrice >= min && c.DailyPrice <= max));
         }
 
+        public IDataResult<List<ProductDetailDto>> GetProductDetailDto()
+        {
+            return new SuccessDataResult<List<ProductDetailDto>>(_carDal.GetProductDetailDto());
+        }
 
-        public void Update(Car car)
+        public IResult Update(Car car)
         {
             if (car.DailyPrice > 0)
             {
                 _carDal.Update(car);
-                Console.WriteLine("Car was updated");
+                return new SuccessResult(Messages.ProductUpdated);
             }
             else
             {
-                Console.WriteLine("Please, write more than 0 price");
+                return new ErrorResult(Messages.ProductNameInvalid);
             }
         }
 
-        public List<Car> GetModelYear(int year)
+        public IDataResult<Car> GetModelYear(int year)
         {
-            return _carDal.GetAll(c => c.ModelYear == year);
+            return new SuccessDataResult<Car>(_carDal.Get(c => c.ModelYear == year));
         }
     }
 }
