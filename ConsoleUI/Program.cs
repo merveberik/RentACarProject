@@ -12,10 +12,26 @@ namespace ConsoleUI
         {
             //SpecialCarTest();
             //CarTest();
-            JoinTest();
+            //JoinTest();
+            CustomerManagerTest();
             //AccordingToBrandName(); 
         }
+        private static void CustomerManagerTest()
+        {
+            RentalManager rentalManager = new RentalManager(new EfRentalDal());
 
+            var result = rentalManager.GetRentalDetailDto();
+
+            if (result.Success)
+            {
+                foreach (var customer in result.Data)
+                {
+                    Console.WriteLine("Car Id : " + customer.CustomerId + "\n" + "Car Brand: " + customer.FirstName +
+                                       "\n" + "Car Color: " + customer.LastName + "\n" + "Daily Price: " + customer.CompanyName +
+                                         "\n" + "Model Year: " + customer.Email + "\n" + "Description: " + customer.Password + "\n");
+                }
+            }
+        }
         private static void AccordingToBrandName()
         {
             CarManager carManager = new CarManager(new EfCarDal());
