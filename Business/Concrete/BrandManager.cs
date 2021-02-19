@@ -29,6 +29,19 @@ namespace Business.Concrete
 
         }
 
+        public IResult Delete(Brand brand)
+        {
+            try
+            {
+                _brandDal.Delete(brand);
+                return new SuccessResult(Messages.BrandDeleted);
+            }
+            catch (ArgumentNullException)
+            {
+                return new ErrorResult(Messages.BrandInvalid);
+            }
+        }
+
         public IDataResult<List<Brand>> GetAll()
         {
             if (DateTime.Now.Hour == 22)
@@ -41,6 +54,11 @@ namespace Business.Concrete
         public IDataResult<Brand> GetById(int id)
         {
             return new SuccessDataResult<Brand>(_brandDal.Get(b => b.BrandId == id));
+        }
+
+        public IResult Update(Brand brand)
+        {
+            return new SuccessResult(Messages.BrandUpdated);
         }
     }
 }

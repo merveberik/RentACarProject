@@ -31,7 +31,15 @@ namespace Business.Concrete
 
         public IResult Delete(User user)
         {
-            throw new NotImplementedException();
+            try
+            {
+                _userDal.Delete(user);
+                return new SuccessResult(Messages.UserDeleted);
+            }
+            catch (ArgumentNullException)
+            {
+                return new ErrorResult(Messages.UserInvalid);
+            }
         }
 
         public IDataResult<List<User>> GetAll()
@@ -39,9 +47,14 @@ namespace Business.Concrete
             return new SuccessDataResult<List<User>>(_userDal.GetAll(), Messages.UserListed);
         }
 
+        public IDataResult<User> GetById(int id)
+        {
+            return new SuccessDataResult<User>(_userDal.Get(p => p.UserId == id));
+        }
+
         public IResult Update(User user)
         {
-            throw new NotImplementedException();
+            return new SuccessResult(Messages.UserUpdated);
         }
     }
 }
