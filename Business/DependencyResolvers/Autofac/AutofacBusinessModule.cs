@@ -1,6 +1,9 @@
 ﻿using Autofac;
+using Autofac.Extras.DynamicProxy;
 using Business.Absrtact;
 using Business.Concrete;
+using Castle.DynamicProxy;
+using Core.Utilities.Interceptors;
 using DataAccess.Absrtact;
 using DataAccess.Concrete.EntityFramework;
 using System;
@@ -15,6 +18,14 @@ namespace Business.DependencyResolvers.Autofac
         {
             builder.RegisterType<CarManager>().As<ICarsService>().SingleInstance();  //IProductService görürse ProductManager versin demektir
             builder.RegisterType<EfCarDal>().As<ICarDal>().SingleInstance();
+
+            var assembly = System.Reflection.Assembly.GetExecutingAssembly();  //çalışan uygulama içinde aspecti çağıra işlemi yapıyor
+
+            builder.RegisterAssemblyTypes(assembly).AsImplementedInterfaces()
+                .EnableInterfaceInterceptors(new ProxyGenerationOptions()
+                {
+                    Selector = new AspectInterceptorSelector()
+                }).SingleInstance();
         }
     }
 }
