@@ -15,5 +15,14 @@
     <ProjectReference Include="..\Entities\Entities.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="wwwroot\Images\audi.jpg" />
+    <None Include="wwwroot\Images\citroen.jpg" />
+    <None Include="wwwroot\Images\hyundai.jpg" />
+    <None Include="wwwroot\Images\mercedes.jpg" />
+    <None Include="wwwroot\Images\tesla.jpg" />
+    <None Include="wwwroot\Images\volkswagen.jpg" />
+  </ItemGroup>
+
 
 </Project>

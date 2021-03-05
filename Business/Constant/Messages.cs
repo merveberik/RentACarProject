@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Entities.Concrete;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -37,8 +38,9 @@ namespace Business.Constant
         public static string RentalUpdated = "Rental updated";
         public static string RentalInvalid = "Rental Invalid";
         public static string RentalListed = "Rental Listed";
-
-
-
+        public static string CarCountOfCategoryError = "Error";
+        public static string CarImageLimitExceeded = "Error";
+        public static string CarNotFound = "Car Not Found";
+        public static string CarImageListed = "Car Images listed";
     }
 }

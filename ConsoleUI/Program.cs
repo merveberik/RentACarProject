@@ -13,8 +13,9 @@ namespace ConsoleUI
             //SpecialCarTest();
             //CarTest();
             //JoinTest();
-            CustomerManagerTest();
+            //CustomerManagerTest();
             //AccordingToBrandName(); 
+            GetAllCarImage();
         }
         private static void CustomerManagerTest()
         {
@@ -109,6 +110,14 @@ namespace ConsoleUI
             foreach (var brand in brandManager.GetAll().Data)
             {
                 Console.WriteLine(brand.BrandId + "/" + brand.BrandName);
+            }
+        }
+        private static void GetAllCarImage()
+        {
+            CarImageManager carImageManager = new CarImageManager(new EfCarImageDal());
+            foreach (var carImage in carImageManager.GetAll().Data)
+            {
+                Console.WriteLine(carImage.Id + "/" + carImage.CarId + "/" + carImage.ImagePath);
             }
         }
     }
