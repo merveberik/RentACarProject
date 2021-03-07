@@ -38,6 +38,7 @@ namespace Business.Concrete
             }
 
             carImage.ImagePath = FileHelper.Add(file);
+            carImage.Date = DateTime.Now;
             _carImageDAL.Add(carImage);
             return new SuccessResult();
         }

@@ -42,5 +42,9 @@ namespace Business.Constant
         public static string CarImageLimitExceeded = "Error";
         public static string CarNotFound = "Car Not Found";
         public static string CarImageListed = "Car Images listed";
+        public static string ProductCountOfCategoryError = "Bir kategoride en fazla ürün olabilir";
+        public static string ProductNameAlreadyExists = "Bu isimde zaten başka bir ürün var";
+        public static string CategoryLimitExceded = "Kategory limiti aşıldığı için ürün eklenemiyor";
+        public static string AuthorizationDenied = "Yetkiniz yok";
     }
 }
