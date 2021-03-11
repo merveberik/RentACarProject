@@ -7,11 +7,11 @@ namespace Core.Utilities.Business
 {
     public class BusinessRules
     {
-        public static IResult Run(params IResult[] logics) //params=> birden çok parametre, virgül kullanarak, kullanabiliriz demektir. logics=> iş kuralı demektir
+        public static IResult Run(params IResult[] logics)
         {
             foreach (var logic in logics)
             {
-                if (logic.Success) //başarısız olana bakıyoruz.
+                if (!logic.Success) 
                 {
                     return logic;
                 }

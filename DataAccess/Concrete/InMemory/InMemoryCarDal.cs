@@ -1,4 +1,4 @@
-﻿using DataAccess.Absrtact;
+﻿using DataAccess.Abstract;
 using Entities.Concrete;
 using Entities.DTOs;
 using System;

@@ -1,12 +1,10 @@
 ﻿using Autofac;
 using Autofac.Extras.DynamicProxy;
-using Business.Absrtact;
 using Business.Abstract;
 using Business.Concrete;
 using Castle.DynamicProxy;
 using Core.Utilities.Interceptors;
 using Core.Utilities.Security.JWT;
-using DataAccess.Absrtact;
 using DataAccess.Abstract;
 using DataAccess.Concrete.EntityFramework;
 using Microsoft.AspNetCore.Http;
@@ -20,7 +18,7 @@ namespace Business.DependencyResolvers.Autofac
     {
         protected override void Load(ContainerBuilder builder)
         {
-            builder.RegisterType<CarManager>().As<ICarsService>().SingleInstance();  //IProductService görürse ProductManager versin demektir
+            builder.RegisterType<CarManager>().As<ICarsService>().SingleInstance(); 
             builder.RegisterType<EfCarDal>().As<ICarDal>().SingleInstance();
             builder.RegisterType<BrandManager>().As<IBrandService>().SingleInstance();
             builder.RegisterType<EfBrandDal>().As<IBrandDal>().SingleInstance();
@@ -38,9 +36,8 @@ namespace Business.DependencyResolvers.Autofac
             builder.RegisterType<AuthManager>().As<IAuthService>();
             builder.RegisterType<JwtHelper>().As<ITokenHelper>();
 
-            builder.RegisterType<HttpContextAccessor>().As<IHttpContextAccessor>(); //eklendi
 
-            var assembly = System.Reflection.Assembly.GetExecutingAssembly();  //çalışan uygulama içinde aspecti çağıra işlemi yapıyor
+            var assembly = System.Reflection.Assembly.GetExecutingAssembly(); 
 
             builder.RegisterAssemblyTypes(assembly).AsImplementedInterfaces()
                 .EnableInterfaceInterceptors(new ProxyGenerationOptions()
