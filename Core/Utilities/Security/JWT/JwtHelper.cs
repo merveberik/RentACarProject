@@ -14,7 +14,7 @@ namespace Core.Utilities.Security.JWT
 {
     public class JwtHelper : ITokenHelper
     {
-        public IConfiguration Configuration { get; } //IConfiguration dosyadaki değerleri okumaya yarıyor
+        public IConfiguration Configuration { get; } 
         private TokenOptions _tokenOptions;
         private DateTime _accessTokenExpiration;
         public JwtHelper(IConfiguration configuration)

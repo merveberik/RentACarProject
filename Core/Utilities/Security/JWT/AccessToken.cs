@@ -4,9 +4,9 @@ using System.Text;
 
 namespace Core.Utilities.Security.JWT
 {
-    public class AccessToken  //erişim anahtarı
+    public class AccessToken 
     {
-        public string Token { get; set; } //json web tokenımız
-        public DateTime Expiration { get; set; } //bitiş tarihi
+        public string Token { get; set; } 
+        public DateTime Expiration { get; set; } 
     }
 }

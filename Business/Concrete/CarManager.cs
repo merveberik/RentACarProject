@@ -3,6 +3,9 @@ using Business.BusinessAspect.Autofac;
 //using Business.CCS;
 using Business.Constant;
 using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Caching;
+using Core.Aspects.Autofac.Performance;
+using Core.Aspects.Autofac.Transaction;
 using Core.Aspects.Autofac.Validation;
 using Core.CrossCuttingConcerns.Validation;
 using Core.Utilities.Business;
@@ -29,6 +32,7 @@ namespace Business.Concrete
         }
         [SecuredOperation("product.add, admin")]
         [ValidationAspect(typeof(CarValidator))]
+        [CacheRemoveAspect("IProductService.Get")]
         public IResult Add(Car car)
         {
             IResult result = BusinessRules.Run(CheckIfCarOfCategoryCorrect(car.CarId));
@@ -54,6 +58,7 @@ namespace Business.Concrete
             }
         }
 
+        [CacheAspect]
         public IDataResult<List<Car>> GetAll()
         {
             //if (DateTime.Now.Hour == 22)
@@ -68,6 +73,8 @@ namespace Business.Concrete
             return new SuccessDataResult<List<Car>>(_carDal.GetAll(p => p.BrandId == id));  //eşit olan id leri filtrele demek
         }
 
+        [CacheAspect]
+        [PerformanceAspect(5)]
         public IDataResult<Car> GetById(int carId)
         {
             return new SuccessDataResult<Car> (_carDal.Get(c => c.CarId == carId));
@@ -83,6 +90,7 @@ namespace Business.Concrete
             return new SuccessDataResult<List<ProductDetailDto>>(_carDal.GetProductDetailDto());
         }
 
+        [CacheRemoveAspect("IProductService.Get")]
         public IResult Update(Car car)
         {
             if (car.DailyPrice > 0)
@@ -110,6 +118,19 @@ namespace Business.Concrete
 
             }
             return new SuccessResult();
+        }
+
+        [TransactionScopeAspect]
+        public IResult AddTransactionTest(Car car)
+        {
+            Add(car);
+            if (car.DailyPrice < 100)
+            {
+                throw new Exception("");
+            }
+            Add(car);
+
+            return null;
         }
     }
 }
