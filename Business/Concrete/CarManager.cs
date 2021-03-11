@@ -45,6 +45,7 @@ namespace Business.Concrete
             return new SuccessResult(Messages.BrandAdded);
         }
 
+        [SecuredOperation("admin,car.admin")]
         public IResult Delete(Car car)
         {
             try
@@ -91,6 +92,7 @@ namespace Business.Concrete
         }
 
         [CacheRemoveAspect("IProductService.Get")]
+        [SecuredOperation("admin,car.admin")]
         public IResult Update(Car car)
         {
             if (car.DailyPrice > 0)
@@ -123,13 +125,8 @@ namespace Business.Concrete
         [TransactionScopeAspect]
         public IResult AddTransactionTest(Car car)
         {
-            Add(car);
-            if (car.DailyPrice < 100)
-            {
-                throw new Exception("");
-            }
-            Add(car);
-
+            _carDal.Add(car);
+            _carDal.Update(car);
             return null;
         }
     }
