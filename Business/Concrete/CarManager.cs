@@ -69,11 +69,14 @@ namespace Business.Concrete
             return new SuccessDataResult<List<Car>>(_carDal.GetAll(), Messages.ProductListed);
         }
 
-        public IDataResult<List<Car>> GetAllByBrandId(int id)
+        public IDataResult<List<ProductDetailDto>> GetAllByBrandId(int id)
         {
-            return new SuccessDataResult<List<Car>>(_carDal.GetAll(p => p.BrandId == id));  //eşit olan id leri filtrele demek
+            return new SuccessDataResult<List<ProductDetailDto>>(_carDal.GetProductDetailDto(c => c.ColorId == id));  //eşit olan id leri filtrele demek
         }
-
+        public IDataResult<List<ProductDetailDto>> GetAllByColorId(int id)
+        {
+            return new SuccessDataResult<List<ProductDetailDto>>(_carDal.GetProductDetailDto(c => c.ColorId == id));
+        }
         [CacheAspect]
         [PerformanceAspect(5)]
         public IDataResult<Car> GetById(int carId)
